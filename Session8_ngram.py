@@ -86,10 +86,10 @@ class NgramModel:
 def example():
     # Example corpus from your question
     corpus = [
-        ["the", "cat", "chases", "the", "mouse"],
-        ["the", "mouse", "eats", "the", "cheese"],
-        ["the", "cheese", "attracts", "the", "mouse"],
-        ["the", "mouse", "fears", "the", "cat"]
+        ["I", "love", "machine", "learning"],
+        ["I", "love", "deep", "learning"],
+        ["deep", "learning", "is", "great"],
+        ["machine", "learning", "is", "fun"]
     ]
       
     # Create and train trigram model
@@ -111,22 +111,33 @@ These are sequences of n adjacent words or tokens, where n > 3.
 Example: For the sentence "I love machine learning", the 4-gram is [("I", "love", "machine", "learning")].
     """
     
-    model = NgramModel(n=3)
+    model = NgramModel(n=2)
     model.build_vocab(corpus)
     model.train(corpus)
     
     # Calculate probability of a sentence
-    test_sent = ["i", "love", "machine", "learning"]
+    test_sent = ["I", "love", "machine", "learning"]
     prob = model.sentence_probability(test_sent)
     print(f"Probability of '{' '.join(test_sent)}': {prob}")
     
     # Generate text
-    context = ("the", "cat")
+    context = ("I", "love")
     generated = model.generate(context)
     print(f"Generated text from context '{' '.join(context)}': {' '.join(generated)}")
     
     perb = model.perplexity(test_sent)
     print(f"Perplexity of '{' '.join(test_sent)}': {perb}")
+    
+    
+    """
+    Probability:
+    Probability in the context of n-gram models refers to the likelihood of a word or sequence of words occurring in a given context.
+    Example: The probability of the word "machine" given the context "I love" in the sentence "I love machine learning" can be calculated using the n-gram counts.
+
+    Perplexity:
+    Perplexity is a measure of how well a probability model predicts a sample. It is the inverse probability of the test set, normalized by the number of words.
+    Example: A lower perplexity indicates a better predictive model. If a model has a perplexity of 10, it means that on average, the model is as uncertain as if it had to choose between 10 different words.
+    """
 
 if __name__ == "__main__":
     example()
